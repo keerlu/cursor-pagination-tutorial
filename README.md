@@ -140,12 +140,7 @@ npx prisma migrate dev --name init
 
 ### 3. Seed the database with example data
 
-Create a new file named `prisma/seed.ts` and copy in the [example seed file from this Github repository]() 
-!! link to file in repository
-
-!!
-
-!!
+Create a new file named `prisma/seed.ts` and copy in the [example seed file from this Github repository](https://github.com/keerlu/cursor-pagination-tutorial/blob/main/prisma/seed.ts) .
 
 Add a reference to this in the `package.json` file:
 
