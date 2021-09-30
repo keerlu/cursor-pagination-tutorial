@@ -38,14 +38,6 @@ Cursor-based pagination instead uses a **cursor** to keep track of the current p
 
 With cursor-based pagination, you first access the first page of the list with `skip` and `take`:
 
-![Cursor-based pagination example: accessing the first page](./images/cursor-pagination-1.svg)
-
-To get the second page, you take a unique `id` from the last element of the first page, and use this as your cursor value (`cursor: 6` in this case). You then need to `skip: 1` to start from the *next* element of the list:
-
-![Cursor-based pagination example: accessing the second page](./images/cursor-pagination-2.svg)
-
-Cursor-based pagination doesn't require traversing the whole list of records in the database, so it scales much better. However, you do have to start from the beginning of the list.
-
 ## Example project: getting started
 
 In this section you'll get the example project set up with all the required dependencies and some initial test data.
