@@ -26,7 +26,7 @@ To understand the advantages of cursor-based pagination, it will be useful to fi
 
 For example, the following diagram `skip`s the first 2 posts and `take`s the next 3:
 
-![Offset pagination example](./images/offset-pagination.svg)
+![Offset pagination example](./images/pagination-offset.svg)
 
 Offset pagination is useful because it allows selection of data at any point in the list. However, offset pagination also has disadvantages:
 - It scales poorly. Offsetting relies on an underlying `OFFSET` feature in the SQL database which has to traverse all the skipped records before returning the ones requested. This leads to slow performance on large datasets.
@@ -37,6 +37,14 @@ Cursor-based pagination instead uses a **cursor** to keep track of the current p
 - `cursor`: a unique id corresponding to the last element of the list returned
 
 With cursor-based pagination, you first access the first page of the list with `skip` and `take`:
+
+![Cursor-based pagination example: first page](./images/pagination-cursor-1.svg)
+
+To get the second page, you take a unique `id` from the last element of the first page, and use this as your cursor value (`cursor: 6` in this case). You then need to `skip: 1` to start from the *next* element of the list:
+
+![Cursor-based pagination example: second page](./images/pagination-cursor-2.svg)
+
+Cursor-based pagination doesn't require traversing the whole list of records in the database, so it scales much better. However, you do have to start from the beginning of the list.
 
 ## Example project: getting started
 
@@ -339,7 +347,7 @@ npm run dev
 ```
 This will get the Apollo server up and running. Go to [http:\\localhost:4000](localhost:4000), which will redirect you to the Apollo Studio Explorer:
 
-![Apollo Studio Explorer start screen](./images/server-splash-screen.png)
+![Apollo Studio Explorer start screen](./images/server-splash-screen.PNG)
 
 Select 'Query your server', and then enter the following example query in the Operations tab:
 
