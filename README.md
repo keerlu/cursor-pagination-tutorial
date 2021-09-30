@@ -24,22 +24,27 @@ To understand the advantages of cursor-based pagination, it will be useful to fi
 - `skip`: the number of elements of the list to skip 
 - `take`: the number of elements of the list to return
 
-!!For example, the following diagram `skip`s the first 2 posts and `take`s the next 4.
-!! include diagram with say 10 posts, skip 2 return 3
+For example, the following diagram `skip`s the first 2 posts and `take`s the next 3:
 
-Offset pagination is useful because it allows selection of data at 
-However, offset pagination also has disadvantages:
+![Offset pagination example](./images/offset-pagination.png)
+
+Offset pagination is useful because it allows selection of data at any point in the list. However, offset pagination also has disadvantages:
 - It scales poorly. Offsetting relies on an underlying `OFFSET` feature in the SQL database which has to traverse all the skipped records before returning the ones requested. This leads to slow performance on large datasets.
-- It can lead to skipped data if the list is still being actively modified. For example, say someone else deletes the third and fourth posts while you are viewing the page...  
+- It can lead to skipped data if the list is still being actively modified. For example, say someone else deletes the third post in the diagram above while you are viewing the page, and then you select to view the next page with `skip:2 take:5`. The sixth page of the original list will be missed out. 
  
-!!explain this once you have the diagrams
-
-Cursor-based pagination instead uses a **cursor** to keep track of the current place in the list. Cursor-based pagination in Prisma uses the following parameters:
+Cursor-based pagination instead uses a **cursor** to keep track of the current place in the list. Cursor-based pagination in Prisma uses an extra parameter:
 
 - `cursor`: a unique id corresponding to the last element of the list returned
-- `take`: the number of elements of the list to return 
 
-!!With cursor-based pagination, you are unable to skip the early part of the list
+With cursor-based pagination, you first access the first page of the list with `skip` and `take`:
+
+![Cursor-based pagination example: accessing the first page](./images/cursor-pagination-1.png)
+
+To get the second page, you take a unique `id` from the last element of the first page, and use this as your cursor value (`cursor: 6` in this case). You then need to `skip: 1` to start from the *next* element of the list:
+
+![Cursor-based pagination example: accessing the second page](./images/cursor-pagination-2.png)
+
+Cursor-based pagination doesn't require traversing the whole list of records in the database, so it scales much better. However, you do have to start from the beginning of the list.
 
 ## Example project: getting started
 
@@ -340,19 +345,15 @@ Now run:
 ```
 npm run dev
 ```
-This will get the Apollo server up and running. Go to [localhost:4000](localhost:4000), which will redirect you to the Apollo Studio Explorer:
+This will get the Apollo server up and running. Go to [http:\\localhost:4000](localhost:4000), which will redirect you to the Apollo Studio Explorer:
 
-!!
-
-!!add image
-
-!!
+![Apollo Studio Explorer start screen](./images/server-splash-screen.png)
 
 Select 'Query your server', and then enter the following example query in the Operations tab:
 
 ```graphql
 query Query {
-  offsetPagination(skip: 0, take: 3, cursor: 1) {
+  offsetPagination(skip: 0, take: 3) {
     id
     title
     content
