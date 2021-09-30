@@ -355,13 +355,31 @@ query Query {
   }
 }
 ```
-This uses offset pagination to return the first three posts:
+Now select 'Query' to run this. You should now see the first three posts in the 'Response' tab:
 
-!!
-
-!!add image
-
-!!
+```json
+{
+  "data": {
+    "offsetPagination": [
+      {
+        "id": 2,
+        "title": "First post by Alice",
+        "content": "Hello world!"
+      },
+      {
+        "id": 5,
+        "title": "Update from Alice",
+        "content": "Some recent news"
+      },
+      {
+        "id": 6,
+        "title": "Another post by Alice",
+        "content": "Another update"
+      }
+    ]
+  }
+}
+```
 
 Now query again using cursor-based pagination to get the next three posts. To do this, pass the `id` of the final post in the list to the `cursor` parameter. Then `skip` one post to start from the next one:
 
@@ -376,10 +394,28 @@ query Query {
 ```
 This returns the following posts:
 
-!!
+```json
+{
+  "data": {
+    "cursorPagination": [
+      {
+        "id": 9,
+        "title": "First post by Bob",
+        "content": "This is my first post!"
+      },
+      {
+        "id": 14,
+        "title": "Update from Bob",
+        "content": "What I've been working on"
+      },
+      {
+        "id": 16,
+        "title": "First post by Charlie",
+        "content": "Hi everyone!"
+      }
+    ]
+  }
+}
+```
 
-!!add image
-
-!!
-
-You can now use the query explorer to play with this example further. Use Prisma's [GraphQL Server Example](https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql) for ideas on how to add further queries.
+You can use the Query Explorer to play with this example further. Use Prisma's [GraphQL Server Example](https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql) for ideas on how to add further queries.
