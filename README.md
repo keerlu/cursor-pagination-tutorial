@@ -16,7 +16,7 @@ One common approach to implementing this is **cursor-based pagination**. In this
 
 - [What is cursor-based pagination?](#what-is-cursor-based-pagination)
 - [Example project: getting started](#example-project-getting-started)
-- [Example project: GraphQL queries](#example-project-graphql-queries)
+- [Example project: GraphQL queries](#example-project-querying-the-graphql-api)
 
 ## What is cursor-based pagination?
 
