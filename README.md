@@ -344,7 +344,7 @@ Now run:
 ```
 npm run dev
 ```
-This will get the Apollo server up and running. Go to [http://localhost:4000](http://localhost:4000), which will redirect you to the Apollo Studio Explorer:
+This will get the Apollo server up and running. Go to `http://localhost:4000`, which will redirect you to the Apollo Studio Explorer:
 
 ![Apollo Studio Explorer start screen](./images/server-splash-screen.PNG)
 
