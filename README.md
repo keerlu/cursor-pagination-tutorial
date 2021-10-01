@@ -8,7 +8,7 @@ One common approach to implementing this is **cursor-based pagination**. In this
 - [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): a database migration tool which you'll use for seeding the database with example data
 - [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): a database client for TypeScript and Node.js                 
 - [**GraphQL Nexus**](https://nexusjs.org/docs/): a GraphQL schema definition and resolver implementation 
-- [**Apollo Server**](https://github.com/apollographql/apollo-server): an HTTP server for GraphQL APIs with an inbuilt sandbox for testing queries   
+- [**Apollo Server**](https://www.apollographql.com/docs/apollo-server/): an HTTP server for GraphQL APIs with an inbuilt sandbox for testing queries   
 
 **Note:** You will need [Node.js](https://nodejs.org) (version 12.6 or higher) for this tutorial.
 
@@ -68,19 +68,19 @@ npm init -y
 This creates a `package.json` file with a basic initial setup for your TypeScript app. Add the following to this file: 
 
 ```json
-"dependencies": {
-  "@prisma/client": "3.1.1",
-  "apollo-server": "3.3.0",
-  "graphql": "15.6.0",
-  "nexus": "1.1.0"
-},
-"devDependencies": {
-  "@types/node": "14.17.19",
-  "prisma": "3.1.1",
-  "ts-node": "10.2.1",
-  "ts-node-dev": "1.1.8",
-  "typescript": "4.4.3"
-}
+  "dependencies": {
+    "@prisma/client": "3.1.1",
+    "apollo-server": "3.3.0",
+    "graphql": "15.6.0",
+    "nexus": "1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "14.17.19",
+    "prisma": "3.1.1",
+    "ts-node": "10.2.1",
+    "ts-node-dev": "1.1.8",
+    "typescript": "4.4.3"
+  }
 ```
  Now run:
  
@@ -131,6 +131,8 @@ model User {
   posts Post[]
 }
 ```
+This defines a simple blog post model to use as a pagination example, where each `User` can have multiple `Post`s.
+
 
 Now use Prisma Migrate to map this data model to the database schema:
 
@@ -140,7 +142,7 @@ npx prisma migrate dev --name init
 
 ### 3. Seed the database with example data
 
-Create a new file named `prisma/seed.ts` and copy in the [example seed file from this Github repository](https://github.com/keerlu/cursor-pagination-tutorial/blob/main/prisma/seed.ts) .
+Next, you'll need some example blog post data. Create a new file named `prisma/seed.ts` and copy in the [example seed file from this Github repository](https://github.com/keerlu/cursor-pagination-tutorial/blob/main/prisma/seed.ts) .
 
 Add a reference to this in the `package.json` file:
 
@@ -160,7 +162,7 @@ npx prisma db seed
 
 ### 1. Add a context file
 
-Add the following to a new `context.ts` file:
+Add the following to a new `context.ts` file in the root directory of the project:
 
 ```ts
 import { PrismaClient } from '@prisma/client'
@@ -253,7 +255,7 @@ Next, use the Nexus `objectType` function to create new GraphQL types for `User`
     },
   })
 ```
-You'll also need a GraphQL `Query` type. For this example, you'll create a `'feed' ` query that displays a list of posts. This query takes in three arguments, `skip`, `take` and `cursor`, which correspond to the Prisma pagination options discussed in the [What is cursor-based pagination?](#what-is-cursor-based-pagination) section above.
+You'll also need a GraphQL `Query` type. For this example, you'll create two queries to demonstrate offset and cursor-based pagination. The `offsetPagination` query takes in two parameters, `skip` and `take`, while the `cursorPagination` query also takes in a `cursor` parameter. These correspond to the Prisma pagination options discussed in the [What is cursor-based pagination?](#what-is-cursor-based-pagination) section above.
 
 ```ts
   const Query = objectType({
@@ -340,7 +342,7 @@ Now run:
 ```
 npm run dev
 ```
-This will get the Apollo server up and running. Go to [http:\\localhost:4000](localhost:4000), which will redirect you to the Apollo Studio Explorer:
+This will get the Apollo server up and running. Go to [http://localhost:4000](http://localhost:4000), which will redirect you to the Apollo Studio Explorer:
 
 ![Apollo Studio Explorer start screen](./images/server-splash-screen.PNG)
 
