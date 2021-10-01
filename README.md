@@ -8,7 +8,9 @@ One common approach to implementing this is **cursor-based pagination**. In this
 - [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): a database migration tool which you'll use for seeding the database with example data
 - [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): a database client for TypeScript and Node.js                 
 - [**GraphQL Nexus**](https://nexusjs.org/docs/): a GraphQL schema definition and resolver implementation 
-- [**Apollo Server**](https://www.apollographql.com/docs/apollo-server/): an HTTP server for GraphQL APIs with an inbuilt sandbox for testing queries   
+- [**Apollo Server**](https://www.apollographql.com/docs/apollo-server/): an HTTP server for GraphQL APIs with an inbuilt sandbox for testing queries
+
+A reference implementation of the example project is available in this repository.   
 
 **Note:** You will need [Node.js](https://nodejs.org) (version 12.6 or higher) for this tutorial.
 
